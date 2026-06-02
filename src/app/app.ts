@@ -55,6 +55,7 @@ export interface IOlympicData {
           [autoGroupColumnDef]="autoGroupColumnDef"
           [sideBar]="sideBar"
           [pivotMode]="true"
+          [rowGroupPanelShow]="'always'"
           [rowData]="rowData"
           (gridReady)="onGridReady($event)"
         />
@@ -77,9 +78,9 @@ export class App implements OnInit {
   }
 
   columnDefs: ColDef[] = [
-    { field: 'country', rowGroup: true, enableRowGroup: true },
-    { field: 'gold', aggFunc: 'sum', enableValue: true },
-    { field: 'sport', enablePivot: true },
+    { field: 'country', enableRowGroup: true, enablePivot: true },
+    { field: 'gold', aggFunc: 'sum', enableValue: true, enablePivot: true, enableRowGroup: true },
+    { field: 'sport', enablePivot: true, enableRowGroup: true },
   ];
   defaultColDef: ColDef = {
     flex: 1,
