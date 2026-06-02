@@ -2,10 +2,17 @@ import { Component, inject, Inject, OnInit, PLATFORM_ID, signal } from '@angular
 import { RouterOutlet } from '@angular/router';
 import './ag-grid-crack';
 import { AgGridAngular } from 'ag-grid-angular';
-import { AutoGroupColumnDef, GridReadyEvent, SideBarDef, type ColDef } from 'ag-grid-community';
+import {
+  AutoGroupColumnDef,
+  GridReadyEvent,
+  LocaleText,
+  SideBarDef,
+  type ColDef,
+} from 'ag-grid-community';
 import { isPlatformBrowser } from '@angular/common';
 import { themeQuartz } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
+import { AG_GRID_LOCALE_IR } from '@ag-grid-community/locale';
 
 // @Component({
 //   selector: 'app-root',
@@ -54,7 +61,9 @@ export interface IOlympicData {
           [defaultColDef]="defaultColDef"
           [autoGroupColumnDef]="autoGroupColumnDef"
           [sideBar]="sideBar"
+          [enableRtl]="true"
           [pivotMode]="pivotMode"
+          [localeText]="localeText"
           [rowGroupPanelShow]="'always'"
           [rowData]="rowData"
           (gridReady)="onGridReady($event)"
@@ -68,6 +77,7 @@ export class App implements OnInit {
   theme = themeQuartz;
   private http = inject(HttpClient);
   pivotMode: boolean = false;
+  localeText: LocaleText = AG_GRID_LOCALE_IR;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     // this.isBrowser = isPlatformBrowser(this.platformId);
@@ -95,6 +105,9 @@ export class App implements OnInit {
   onGridReady(params: GridReadyEvent<IOlympicData>) {
     this.http
       .get<IOlympicData[]>('https://www.ag-grid.com/example-assets/olympic-winners.json')
-      .subscribe((data) => (this.rowData = data));
+      .subscribe((data) => {
+        console.log(data);
+        this.rowData = data;
+      });
   }
 }
