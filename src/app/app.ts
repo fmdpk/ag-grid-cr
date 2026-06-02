@@ -54,7 +54,7 @@ export interface IOlympicData {
           [defaultColDef]="defaultColDef"
           [autoGroupColumnDef]="autoGroupColumnDef"
           [sideBar]="sideBar"
-          [pivotMode]="true"
+          [pivotMode]="pivotMode"
           [rowGroupPanelShow]="'always'"
           [rowData]="rowData"
           (gridReady)="onGridReady($event)"
@@ -67,7 +67,7 @@ export class App implements OnInit {
   isBrowser: boolean = false;
   theme = themeQuartz;
   private http = inject(HttpClient);
-  pivotMode: boolean = true;
+  pivotMode: boolean = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     // this.isBrowser = isPlatformBrowser(this.platformId);
