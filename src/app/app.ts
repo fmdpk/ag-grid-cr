@@ -61,6 +61,8 @@ export interface IOlympicData {
           [defaultColDef]="defaultColDef"
           [autoGroupColumnDef]="autoGroupColumnDef"
           [sideBar]="sideBar"
+          [enableFilterHandlers]="true"
+          [suppressSetFilterByDefault]="true"
           [enableRtl]="true"
           [pivotMode]="pivotMode"
           [localeText]="localeText"
@@ -78,15 +80,6 @@ export class App implements OnInit {
   private http = inject(HttpClient);
   pivotMode: boolean = false;
   localeText: LocaleText = AG_GRID_LOCALE_IR;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // this.isBrowser = isPlatformBrowser(this.platformId);
-  }
-
-  ngOnInit(): void {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
-
   columnDefs: ColDef[] = [
     { field: 'country', enableRowGroup: true, enablePivot: true },
     { field: 'gold', aggFunc: 'sum', enableValue: true, enablePivot: true, enableRowGroup: true },
@@ -95,12 +88,31 @@ export class App implements OnInit {
   defaultColDef: ColDef = {
     flex: 1,
     minWidth: 130,
+    // filter: true,
+    filter: 'agSelectableColumnFilter',
+    floatingFilter: true,
   };
   autoGroupColumnDef: AutoGroupColumnDef = {
     minWidth: 200,
   };
-  sideBar: SideBarDef | string | string[] | boolean | null = 'columns';
+  // sideBar: SideBarDef | string | string[] | boolean | null = {
+  //   toolPanels: ['columns', 'filters'],
+  //   defaultToolPanel: '',
+  // };
+
+  sideBar: SideBarDef | string | string[] | boolean | null = {
+    toolPanels: ['columns', 'filters-new'],
+    defaultToolPanel: '',
+  };
   rowData!: IOlympicData[];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    // this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  ngOnInit(): void {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   onGridReady(params: GridReadyEvent<IOlympicData>) {
     this.http
