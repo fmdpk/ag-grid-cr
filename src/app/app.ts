@@ -107,19 +107,22 @@ export class App implements OnInit {
   rowData!: IOlympicData[];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // this.isBrowser = isPlatformBrowser(this.platformId);
-  }
-
-  ngOnInit(): void {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  ngOnInit(): void {
+    // this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
   onGridReady(params: GridReadyEvent<IOlympicData>) {
-    this.http
-      .get<IOlympicData[]>('https://www.ag-grid.com/example-assets/olympic-winners.json')
-      .subscribe((data) => {
-        console.log(data);
-        this.rowData = data;
-      });
+    console.log(params);
+    if (this.isBrowser) {
+      this.http
+        .get<IOlympicData[]>('https://www.ag-grid.com/example-assets/olympic-winners.json')
+        .subscribe((data) => {
+          console.log(data);
+          this.rowData = data;
+        });
+    }
   }
 }
